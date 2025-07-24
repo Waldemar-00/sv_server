@@ -1,6 +1,1 @@
-[
-	{ "id": 1753018249604, "text": "Some todo 77", "done": true },
-	{ "id": 1753020850322, "text": "Some todo", "done": true },
-	{ "id": 1753020854633, "text": "Some todo 77", "done": true },
-	{ "id": 1753118958937, "text": "Some todo 1223", "done": true }
-]
+[{"id":1753018249604,"text":"Some todo 77","done":true},{"id":1753020850322,"text":"Some todo","done":true},{"id":1753020854633,"text":"Some todo 77","done":true},{"id":1753118958937,"text":"Some todo 1223","done":true},{"id":1753378963055,"text":"Some todo 899","done":false},{"id":1753380154584,"text":"Some todo 8","done":false},{"id":1753380193262,"text":"Some todo 99","done":false},{"id":1753380201551,"text":"Some todo 99234","done":false},{"id":1753380205198,"text":"Some todo 99234567584","done":false}]

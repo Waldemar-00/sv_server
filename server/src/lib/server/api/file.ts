@@ -15,6 +15,17 @@ class Files {
 			return { ok: false, content };
 		}
 	}
+	async writeFile(path: string, newDB: any) {
+		try {
+			const PATH = join(this.basePath, path);
+			const db = JSON.stringify(newDB);
+			await fs.writeFile(PATH, db, 'utf-8');
+			return { message: 'DB has been written' };
+		} catch (error) {
+			if (error instanceof Error) return { error };
+			else return new Error('Something went wrong!');
+		}
+	}
 }
 
 const basePath = join(process.cwd(), 'src', 'lib', 'server');
