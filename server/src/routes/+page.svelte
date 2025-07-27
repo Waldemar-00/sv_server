@@ -4,22 +4,28 @@
 
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-
+    let disabled = $state(false)
     let {data} = $props()
-    // $inspect(data)
 </script>
 
 <h1>Todos (server.ts)</h1>
 {#if data?.content?.ok }
     <form method=POST action=/api/todos use:enhance={() => {
+        disabled = 'adding todo...'
         return async ({update}) => {
             await update()
             invalidateAll()
+            disabled = false
         }
     }}>
         <input type="hidden" name="marker" value="ADD" />
-        <input type="text" name="todo" />
+        <input type="text" name="todo" disabled={disabled}/>
     </form>
+    <div class="loading-container">
+        {#if disabled}
+            <div class="loading-message">{disabled}</div>
+        {/if}
+    </div>
     <ul>
         {#each data.content.content as todo, i (todo.id) }
             <li>
@@ -29,25 +35,29 @@
                 <form method=POST action=/api/todos
                 onclick={(e) => {if(e.target.type === 'checkbox') e.target.form.requestSubmit()}}
                 use:enhance={() => {
+                    disabled = 'toggling done...'
                     return async ({update}) => {
                         await update()
                         invalidateAll()
+                        disabled = false
                     }
                 }} >
                     <input type="hidden" name="marker" value="TOGGLE" />
                     <input type="hidden" name="id" value={todo.id} />
-                    <input type="checkbox" name="done" checked={todo.done}/>
+                    <input type="checkbox" name="done" checked={todo.done} disabled={disabled}/>
                 </form>
                 <span>{todo.text}</span>
                 <form method=POST action=/api/todos use:enhance={() => {
+                    disabled = 'deleting todo...'
                     return async ({update}) => {
                         await update()
                         invalidateAll()
+                        disabled = false
                     }
                 }}>
                     <input type="hidden" name="marker" value="DELETE" />
                     <input type="hidden" name="deleteId" value={todo.id} />
-                    <button type="submit">delete</button>
+                    <button type="submit" disabled={disabled}>delete</button>
                 </form>
             </li>
         {/each}
@@ -302,6 +312,28 @@
 			flex-wrap: wrap;
 			gap: 12px;
 		}
+	}
+
+	/* Loading container to prevent layout shifts */
+	.loading-container {
+		height: 2rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 1rem;
+	}
+
+	.loading-message {
+		color: var(--accent-blue);
+		font-size: 1rem;
+		font-weight: 500;
+		opacity: 0;
+		animation: fadeIn 0.3s ease-in-out forwards;
+	}
+
+	@keyframes fadeIn {
+		from { opacity: 0; }
+		to { opacity: 1; }
 	}
 
 	/* Focus indicators for accessibility */
